@@ -1,12 +1,51 @@
 import { Router } from "express";
 import * as MemberController from "../controllers/member.controller";
+import { protect } from "../middleware/auth.middleware";
+import { authorizeRoles } from "../middleware/rbac.middleware";
+import { validate } from "../utils/validation";
+
+import { 
+    createMemberSchema,
+    updateMemberSchema,
+    deleteMemberSchema, 
+} from "../types/member.validation";
 
 const router = Router();
 
-router.post("/", MemberController.createMember);
+//protect all members
+
+router.use(protect);
+
+//only the admin and the Super Admin can create new members
+router.post(
+    "/",
+    protect,
+    authorizeRoles("Admin", "Super Admin"),
+    validate(createMemberSchema),
+    MemberController.createMember
+);
+
+//all authenticated members can view
 router.get("/", MemberController.getAllMembers);
 router.get("/:id", MemberController.getMemberById);
-router.put("/:id", MemberController.updateMember);
-router.delete("/:id", MemberController.deleteMember);
+
+
+//only the admin and the super user can update
+router.put(
+    "/:id",
+    protect,
+    validate(updateMemberSchema),
+    authorizeRoles("Admin", "Super Admin"),
+    MemberController.updateMember
+);
+
+//only the superuse can delete member
+router.delete(
+    "/:id",
+    protect,
+    validate(deleteMemberSchema),
+    authorizeRoles("Super Admin"), 
+    MemberController.deleteMember
+);
 
 export default router;
