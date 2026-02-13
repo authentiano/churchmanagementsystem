@@ -1,6 +1,8 @@
 //this is for the member service
 
-import Member, { IMember } from "../models/Member";
+// import Member, { IMember } from "../models/member";
+import Member from "../models/member.model"; // ✅ matches new filename
+import Member from "../models/member.model";
 
 interface MemberInput {
   firstName: string;

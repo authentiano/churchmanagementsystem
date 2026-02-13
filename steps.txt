@@ -1,0 +1,49 @@
+this is what we are following, so identfy where we are, ie hashing after validation and we move on 
+Phase 1 — Backend Foundation
+
+Project setup
+
+Clean architecture structure
+
+Environment configuration
+
+Database connection
+
+Logging
+
+Global error handling
+
+Rate limiting
+
+Validation system
+
+Authentication module (with refresh tokens)
+
+RBAC middleware
+
+ONLY after this do we touch:
+
+Phase 2 — Core Data Modules
+
+Members
+Cells
+Evangelism
+Follow-up
+Finance
+Attendance
+
+Then:
+
+Phase 3 — Dashboard aggregation layer
+
+Then:
+
+Phase 4 — Communication system
+
+Then:
+
+Phase 5 — Frontend (Next.js 14 App Router)
+
+Then:
+
+Phase 6 — Deployment & DevOps hardening
