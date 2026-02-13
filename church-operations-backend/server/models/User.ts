@@ -1,3 +1,4 @@
+//this file manages the user, the accounts created, like for the admin
 
 console.log("Loading User model");
 

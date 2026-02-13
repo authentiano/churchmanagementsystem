@@ -8,7 +8,7 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
-
+import memberRoutes from "./routes/member.routes";
 
 
 
@@ -23,7 +23,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+//memberRoutes
+app.use("/api/v1/members", memberRoutes);
+
+//authenticated user routes
 app.use("/api/v1/auth", authRoutes);
+
+
 // 🛡️ Security middlewares
 app.use(helmet()); // Secure headers
 app.use(cors());   // Allow cross-origin requests
