@@ -4,8 +4,10 @@ console.log("Loading auth.controller.ts");
 
 import { Request, Response } from "express";
 import * as AuthService from "../services/auth.service";
+import { asyncHandler } from "../utils/asyncHandler";
 
-export const register = async (req: Request, res: Response) => {
+
+export const register = asyncHandler(async (req: Request, res: Response) => {
   try {
     const user = await AuthService.registerUser(req.body);
     res.status(201).json({
@@ -22,9 +24,9 @@ export const register = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({ status: "error", message: error.message });
   }
-};
+});
 
-export const login = async (req: Request, res: Response) => {
+export const login = asyncHandler(async (req: Request, res: Response) => {
   try {
     const { user, token, refreshToken } = await AuthService.loginUser(
       req.body
@@ -45,4 +47,4 @@ export const login = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(401).json({ status: "error", message: error.message });
   }
-};
+});

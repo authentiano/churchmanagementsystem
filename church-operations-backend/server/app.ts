@@ -9,14 +9,18 @@ import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
 import memberRoutes from "./routes/member.routes";
-
-
+import { errorHandler } from "./middleware/error.middleware";
 
 
 // Load env variables
 dotenv.config();
 
 const app = express();
+
+
+
+//for errorhandling
+app.use(errorHandler);
 
 // Body parser
 app.use(express.json()); 
