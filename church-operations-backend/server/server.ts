@@ -1,4 +1,4 @@
-console.log("Loading server.ts");
+console.log("wait, Loading server.ts");
 
 import dotenv from "dotenv";
 import app from "./app";
