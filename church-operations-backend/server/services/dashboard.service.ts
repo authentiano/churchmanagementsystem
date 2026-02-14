@@ -1,6 +1,8 @@
 import Member from "../models/member.model";
 import { Cell } from "../models/cell.model";
 import { Donation } from "../models/donation.model";
+import Convert from "../models/convert.model";
+import FollowUp from "../models/followup.model";
 
 // Fetch summary metrics for dashboard
 export const getDashboardMetrics = async () => {
@@ -13,9 +15,113 @@ export const getDashboardMetrics = async () => {
 
   const totalDonations = totalDonationsAgg[0]?.total || 0;
 
+  // Evangelism & Follow-Up metrics
+  const totalConverts = await Convert.countDocuments();
+  const baptizedConverts = await Convert.countDocuments({ followUpStatus: "Baptized" });
+  const pendingFollowUps = await FollowUp.countDocuments({ status: { $ne: "Closed" } });
+  const completedFollowUps = await FollowUp.countDocuments({ status: "Completed" });
+
+  // Cell metrics
+  const cellsWithAttendance = await Cell.countDocuments({ "attendanceRecords.0": { $exists: true } });
+  const avgCellSize = totalMembers > 0 ? Math.round(totalMembers / activeCells) : 0;
+
+  const conversionRate = totalConverts > 0 ? Math.round((baptizedConverts / totalConverts) * 100) : 0;
+
   return {
     totalMembers,
     activeCells,
     totalDonations,
+    evangelism: {
+      totalConverts,
+      baptizedConverts,
+      conversionRate: `${conversionRate}%`,
+    },
+    followUp: {
+      pending: pendingFollowUps,
+      completed: completedFollowUps,
+    },
+    cells: {
+      active: activeCells,
+      cellsWithAttendance,
+      avgCellSize,
+    },
+  };
+};
+
+export const getEvangelismAnalytics = async () => {
+  const totalConverts = await Convert.countDocuments();
+  const byStatus = await Convert.aggregate([
+    { $group: { _id: "$followUpStatus", count: { $sum: 1 } } },
+  ]);
+
+  const statusMap: any = {};
+  byStatus.forEach((item) => {
+    statusMap[item._id] = item.count;
+  });
+
+  const baptizedConverts = await Convert.countDocuments({ followUpStatus: "Baptized" });
+  const conversionRate = totalConverts > 0 ? Math.round((baptizedConverts / totalConverts) * 100) : 0;
+
+  return {
+    totalConverts,
+    statusBreakdown: statusMap,
+    baptizedConverts,
+    conversionRatePercent: conversionRate,
+  };
+};
+
+export const getFollowUpAnalytics = async () => {
+  const totalFollowUps = await FollowUp.countDocuments();
+  const byStatus = await FollowUp.aggregate([
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+  ]);
+
+  const statusMap: any = {};
+  byStatus.forEach((item) => {
+    statusMap[item._id] = item.count;
+  });
+
+  const byType = await FollowUp.aggregate([
+    { $group: { _id: "$targetType", count: { $sum: 1 } } },
+  ]);
+
+  const typeMap: any = {};
+  byType.forEach((item) => {
+    typeMap[item._id] = item.count;
+  });
+
+  const completionRate = totalFollowUps > 0 ? Math.round(((statusMap["Completed"] || 0) / totalFollowUps) * 100) : 0;
+
+  return {
+    totalFollowUps,
+    statusBreakdown: statusMap,
+    typeBreakdown: typeMap,
+    completionRatePercent: completionRate,
+  };
+};
+
+export const getCellAnalytics = async () => {
+  const totalCells = await Cell.countDocuments();
+  const totalMembers = await Member.countDocuments();
+  const cellsWithAttendance = await Cell.countDocuments({ "attendanceRecords.0": { $exists: true } });
+
+  const avgCellSize = totalCells > 0 ? Math.round(totalMembers / totalCells) : 0;
+
+  const cellMetrics = await Cell.aggregate([
+    {
+      $project: {
+        name: 1,
+        leader: 1,
+        memberCount: { $size: { $ifNull: ["$members", []] } },
+        attendanceCount: { $size: { $ifNull: ["$attendanceRecords", []] } },
+      },
+    },
+  ]);
+
+  return {
+    totalCells,
+    cellsWithAttendance,
+    avgCellSize,
+    topCells: cellMetrics.slice(0, 5),
   };
 };

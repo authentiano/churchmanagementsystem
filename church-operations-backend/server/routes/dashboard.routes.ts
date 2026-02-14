@@ -12,4 +12,9 @@ router.get(
   DashboardController.getDashboard
 );
 
+// Analytics endpoints (for detailed insights)
+router.get("/analytics/evangelism", protect, authorize("Super Admin", "Admin", "Evangelism Team"), DashboardController.getEvangelismAnalytics);
+router.get("/analytics/followup", protect, authorize("Super Admin", "Admin", "Follow-Up Team"), DashboardController.getFollowUpAnalytics);
+router.get("/analytics/cells", protect, authorize("Super Admin", "Admin", "Cell Leader"), DashboardController.getCellAnalytics);
+
 export default router;

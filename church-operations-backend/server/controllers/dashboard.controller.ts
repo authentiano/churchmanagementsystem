@@ -12,3 +12,18 @@ export const getDashboard = asyncHandler(
     });
   }
 );
+
+export const getEvangelismAnalytics = asyncHandler(async (req: Request, res: Response) => {
+  const data = await DashboardService.getEvangelismAnalytics();
+  res.status(200).json({ status: "success", data });
+});
+
+export const getFollowUpAnalytics = asyncHandler(async (req: Request, res: Response) => {
+  const data = await DashboardService.getFollowUpAnalytics();
+  res.status(200).json({ status: "success", data });
+});
+
+export const getCellAnalytics = asyncHandler(async (req: Request, res: Response) => {
+  const data = await DashboardService.getCellAnalytics();
+  res.status(200).json({ status: "success", data });
+});
