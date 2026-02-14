@@ -27,3 +27,8 @@ export const getCellAnalytics = asyncHandler(async (req: Request, res: Response)
   const data = await DashboardService.getCellAnalytics();
   res.status(200).json({ status: "success", data });
 });
+
+export const getFinanceAnalytics = asyncHandler(async (req: Request, res: Response) => {
+  const data = await DashboardService.getFinanceAnalytics();
+  res.status(200).json({ status: "success", data });
+});

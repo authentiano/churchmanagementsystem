@@ -125,3 +125,37 @@ export const getCellAnalytics = async () => {
     topCells: cellMetrics.slice(0, 5),
   };
 };
+
+export const getFinanceAnalytics = async () => {
+  const totalDonations = await Donation.countDocuments();
+
+  const byType = await Donation.aggregate([
+    { $group: { _id: "$type", total: { $sum: "$amount" }, count: { $sum: 1 } } },
+  ]);
+
+  const byStatus = await Donation.aggregate([
+    { $group: { _id: "$verificationStatus", total: { $sum: "$amount" }, count: { $sum: 1 } } },
+  ]);
+
+  const typeMap: any = {};
+  let totalAmount = 0;
+  byType.forEach((item) => {
+    typeMap[item._id] = { amount: item.total, count: item.count };
+    totalAmount += item.total;
+  });
+
+  const statusMap: any = {};
+  byStatus.forEach((item) => {
+    statusMap[item._id] = { amount: item.total, count: item.count };
+  });
+
+  const verifiedAmount = statusMap["Verified"]?.amount || 0;
+
+  return {
+    totalDonations,
+    totalAmount,
+    verifiedAmount,
+    typeBreakdown: typeMap,
+    statusBreakdown: statusMap,
+  };
+};
