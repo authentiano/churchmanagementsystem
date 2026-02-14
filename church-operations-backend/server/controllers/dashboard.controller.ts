@@ -32,3 +32,13 @@ export const getFinanceAnalytics = asyncHandler(async (req: Request, res: Respon
   const data = await DashboardService.getFinanceAnalytics();
   res.status(200).json({ status: "success", data });
 });
+
+export const getCommunicationAnalytics = asyncHandler(async (req: Request, res: Response) => {
+  const data = await DashboardService.getCommunicationAnalytics();
+  res.status(200).json({ status: "success", data });
+});
+
+export const getFinanceAnalytics = asyncHandler(async (req: Request, res: Response) => {
+  const data = await DashboardService.getFinanceAnalytics();
+  res.status(200).json({ status: "success", data });
+});

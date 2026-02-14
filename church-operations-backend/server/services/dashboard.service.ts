@@ -3,6 +3,9 @@ import { Cell } from "../models/cell.model";
 import { Donation } from "../models/donation.model";
 import Convert from "../models/convert.model";
 import FollowUp from "../models/followup.model";
+import SMSLog from "../models/sms.model";
+import WhatsAppMessage from "../models/whatsapp.model";
+import EmailCampaign from "../models/emailcampaign.model";
 
 // Fetch summary metrics for dashboard
 export const getDashboardMetrics = async () => {
@@ -157,5 +160,37 @@ export const getFinanceAnalytics = async () => {
     verifiedAmount,
     typeBreakdown: typeMap,
     statusBreakdown: statusMap,
+  };
+};
+
+export const getCommunicationAnalytics = async () => {
+  const smsStats = await SMSLog.aggregate([
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+  ]);
+
+  const smsByStatus: any = {};
+  let totalSMS = 0;
+  smsStats.forEach((item) => {
+    smsByStatus[item._id] = item.count;
+    totalSMS += item.count;
+  });
+
+  const whatsappStats = await WhatsAppMessage.aggregate([
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+  ]);
+
+  const whatsappByStatus: any = {};
+  let totalWhatsApp = 0;
+  whatsappStats.forEach((item) => {
+    whatsappByStatus[item._id] = item.count;
+    totalWhatsApp += item.count;
+  });
+
+  const emailStats = await EmailCampaign.countDocuments({ status: "Sent" });
+
+  return {
+    sms: { totalSent: totalSMS, byStatus: smsByStatus },
+    whatsapp: { totalSent: totalWhatsApp, byStatus: whatsappByStatus },
+    email: { campaignsSent: emailStats },
   };
 };
