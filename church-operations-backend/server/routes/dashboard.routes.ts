@@ -4,11 +4,11 @@ import { protect, authorize } from "../middleware/auth.middleware";
 
 const router = Router();
 
-// Only SuperAdmin & Admin can view dashboard
+// Only Super Admin & Admin can view dashboard
 router.get(
   "/",
   protect,
-  authorize("SuperAdmin", "Admin"),
+  authorize("Super Admin", "Admin"),
   DashboardController.getDashboard
 );
 

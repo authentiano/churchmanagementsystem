@@ -1,8 +1,6 @@
-import { Member } from "../models/member.model";
+import Member from "../models/member.model";
 import { Cell } from "../models/cell.model";
 import { Donation } from "../models/donation.model";
-import Member from "../models/member.model"; // no curly braces
-
 
 // Fetch summary metrics for dashboard
 export const getDashboardMetrics = async () => {
