@@ -9,6 +9,11 @@ import {
   assignLeaderSchema,
   addMembersSchema,
   getCellsSchema,
+  createAttendanceSchema,
+  getAttendanceSchema,
+  getMetricsSchema,
+  multiplyCellSchema,
+  getCellReportSchema,
 } from "../types/cell.validation";
 
 const router = Router();
