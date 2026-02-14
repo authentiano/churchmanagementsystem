@@ -1,6 +1,6 @@
 console.log("Loading auth.service.ts");
 
-import User, { IUser } from "../models/User";
+import User, { IUser } from "../models/user.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -17,18 +17,22 @@ interface LoginInput {
 }
 
 export const registerUser = async (input: RegisterInput) => {
+  console.log("👉 registerUser called");
+
   const { name, email, password, role } = input;
 
-  // Check if user already exists
+  console.log("👉 Checking existing user");
   const existingUser = await User.findOne({ email });
+  console.log("👉 Existing user check done");
+
   if (existingUser) {
     throw new Error("User already exists");
   }
 
-  // Hash password
+  console.log("👉 Hashing password");
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Create new user
+  console.log("👉 Creating user");
   const user = await User.create({
     name,
     email,
@@ -36,31 +40,35 @@ export const registerUser = async (input: RegisterInput) => {
     role: role || "Admin",
   });
 
+  console.log("👉 User created");
   return user;
 };
 
 export const loginUser = async (input: LoginInput) => {
-  const { email, password } = input;
+  console.log("👉 loginUser called");
 
+  const { email, password } = input;
   const user = await User.findOne({ email });
   if (!user) throw new Error("Invalid credentials");
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("Invalid credentials");
 
-  // Create JWT
+  console.log("👉 Creating JWT tokens");
+
   const token = jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_SECRET as string,
-    { expiresIn: "15m" } // Access token valid for 15 mins
+    { expiresIn: "15m" }
   );
 
-  // Refresh token (optional)
   const refreshToken = jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_REFRESH_SECRET as string,
     { expiresIn: "7d" }
   );
+
+  console.log("👉 Tokens created");
 
   return { user, token, refreshToken };
 };

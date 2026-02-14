@@ -19,7 +19,7 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 
-// 📦 Body parsers (ONLY ONCE)
+// 📦 Body parsers (only once, BEFORE routes)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,8 +30,9 @@ if (process.env.NODE_ENV === "development") {
 
 // ⏱️ Rate limiter
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 15 * 60 * 1000, // 15 mins
   max: 100,
+  message: "Too many requests from this IP, try again later",
 });
 app.use(limiter);
 
@@ -42,10 +43,10 @@ app.use("/api/v1/dashboard", dashboardRoutes);
 
 // ✅ Health check
 app.get("/health", (req: Request, res: Response) => {
-  res.status(200).json({ status: "ok", message: "Server is running" });
+  res.status(200).json({ status: "success", message: "Server is running" });
 });
 
-// ⚠️ Global error handler (MUST BE LAST)
+// ⚠️ Global error handler (must be LAST)
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error("Global Error:", err);
   res.status(err.statusCode || 500).json({
