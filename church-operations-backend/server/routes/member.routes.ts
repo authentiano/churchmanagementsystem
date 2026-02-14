@@ -19,7 +19,6 @@ router.use(protect);
 //only the admin and the Super Admin can create new members
 router.post(
     "/",
-    protect,
     authorizeRoles("Admin", "Super Admin"),
     validate(createMemberSchema),
     MemberController.createMember
@@ -33,7 +32,6 @@ router.get("/:id", MemberController.getMemberById);
 //only the admin and the super user can update
 router.put(
     "/:id",
-    protect,
     validate(updateMemberSchema),
     authorizeRoles("Admin", "Super Admin"),
     MemberController.updateMember
@@ -42,7 +40,6 @@ router.put(
 //only the superuse can delete member
 router.delete(
     "/:id",
-    protect,
     validate(deleteMemberSchema),
     authorizeRoles("Super Admin"), 
     MemberController.deleteMember
