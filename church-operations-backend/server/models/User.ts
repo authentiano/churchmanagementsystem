@@ -43,12 +43,12 @@ const UserSchema: Schema<IUser> = new Schema(
 );
 
 // Hash password **after validation but before save**
-UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+UserSchema.pre("save", async function () {
+  // when using async middleware, Mongoose will use the returned promise
+  if (!this.isModified("password")) return;
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  next();
 });
 
 // Compare password for login

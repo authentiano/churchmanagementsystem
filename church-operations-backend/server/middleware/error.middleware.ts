@@ -11,6 +11,7 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   console.error(err);
+  console.error(err?.stack);
 
   const statusCode = err.statusCode || 500;
 
