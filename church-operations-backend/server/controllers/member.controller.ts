@@ -7,9 +7,22 @@ export const createMember = asyncHandler(async (req: Request, res: Response) => 
   res.status(201).json({ status: "success", data: member });
 });
 
-export const getAllMembers = asyncHandler(async (_req: Request, res: Response) => {
-  const members = await MemberService.getAllMembers();
-  res.status(200).json({ status: "success", data: members });
+export const getAllMembers = asyncHandler(async (req: Request, res: Response) => {
+  const q = req.query as any;
+  const page = q.page ?? 1;
+  const limit = q.limit ?? 10;
+  const memberStatus = q.memberStatus as string | undefined;
+  const search = q.search as string | undefined;
+
+  const { docs, total, totalPages } = await MemberService.getAllMembers({ page: Number(page), limit: Number(limit), memberStatus, search });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      members: docs,
+      meta: { total, page: Number(page), limit: Number(limit), totalPages },
+    },
+  });
 });
 
 export const getMemberById = asyncHandler(async (req: Request, res: Response) => {

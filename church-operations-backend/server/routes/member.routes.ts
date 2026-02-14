@@ -7,7 +7,8 @@ import { validate } from "../utils/validation";
 import { 
     createMemberSchema,
     updateMemberSchema,
-    deleteMemberSchema, 
+    deleteMemberSchema,
+    getMembersSchema,
 } from "../types/member.validation";
 
 const router = Router();
@@ -24,8 +25,8 @@ router.post(
     MemberController.createMember
 );
 
-//all authenticated members can view
-router.get("/", MemberController.getAllMembers);
+//all authenticated members can view (supports pagination & filters)
+router.get("/", validate(getMembersSchema), MemberController.getAllMembers);
 router.get("/:id", MemberController.getMemberById);
 
 

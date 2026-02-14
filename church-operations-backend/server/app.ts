@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
 import memberRoutes from "./routes/member.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
+import cellRoutes from "./routes/cell.routes";
 import { errorHandler } from "./middleware/error.middleware";
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.use(limiter);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/members", memberRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
+app.use("/api/v1/cells", cellRoutes);
 
 // Health check
 app.get("/health", (_req: Request, res: Response) => {

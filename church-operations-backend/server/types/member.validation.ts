@@ -50,6 +50,18 @@ export const updateMemberSchema = z.object({
 });
 
 /* ===============================
+   GET MEMBERS (pagination + filters)
+================================= */
+export const getMembersSchema = z.object({
+  query: z.object({
+    page: z.coerce.number().int().positive().optional(),
+    limit: z.coerce.number().int().positive().optional(),
+    memberStatus: z.enum(["Visitor", "Convert", "Worker", "Leader"]).optional(),
+    search: z.string().optional(),
+  }),
+});
+
+/* ===============================
    DELETE MEMBER
 ================================= */
 export const deleteMemberSchema = z.object({
