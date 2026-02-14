@@ -1,6 +1,6 @@
 console.log("Loading auth.service.ts");
 
-import User, { IUser } from "../models/user.model";
+import User, { IUser } from "../models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -29,14 +29,11 @@ export const registerUser = async (input: RegisterInput) => {
     throw new Error("User already exists");
   }
 
-  console.log("👉 Hashing password");
-  const hashedPassword = await bcrypt.hash(password, 10);
-
   console.log("👉 Creating user");
   const user = await User.create({
     name,
     email,
-    password: hashedPassword,
+    password, // hashed by model pre-save hook
     role: role || "Admin",
   });
 

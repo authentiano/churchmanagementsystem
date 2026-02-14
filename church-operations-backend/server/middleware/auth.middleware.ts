@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/user.model";
+import User from "../models/User";
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
   // auth logic

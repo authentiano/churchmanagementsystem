@@ -1,5 +1,3 @@
-console.log("Loading app.ts");
-
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -10,49 +8,37 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
 import memberRoutes from "./routes/member.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
+import { errorHandler } from "./middleware/error.middleware";
 
 dotenv.config();
-
 const app = express();
 
-// 🛡️ Security middlewares
-app.use(helmet());
-app.use(cors());
-
-// 📦 Body parsers (only once, BEFORE routes)
+// Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 📊 Logger (dev only)
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+// Security
+app.use(helmet());
+app.use(cors());
 
-// ⏱️ Rate limiter
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 mins
-  max: 100,
-  message: "Too many requests from this IP, try again later",
-});
+// Logger
+if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+
+// Rate limiter
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use(limiter);
 
-// ✅ Routes
+// Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/members", memberRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 
-// ✅ Health check
-app.get("/health", (req: Request, res: Response) => {
-  res.status(200).json({ status: "success", message: "Server is running" });
+// Health check
+app.get("/health", (_req: Request, res: Response) => {
+  res.status(200).json({ status: "ok", message: "Server is running" });
 });
 
-// ⚠️ Global error handler (must be LAST)
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error("Global Error:", err);
-  res.status(err.statusCode || 500).json({
-    status: "error",
-    message: err.message || "Internal Server Error",
-  });
-});
+// Global error handler
+app.use(errorHandler);
 
 export default app;

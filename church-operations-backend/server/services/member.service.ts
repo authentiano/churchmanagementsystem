@@ -3,6 +3,8 @@
 // import Member, { IMember } from "../models/member";
 import Member from "../models/member.model"; // ✅ matches new filename
 import Member from "../models/member.model";
+import Member, { IMember } from "../models/member.model";
+
 
 interface MemberInput {
   firstName: string;

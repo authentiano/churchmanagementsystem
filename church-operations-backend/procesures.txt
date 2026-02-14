@@ -1,0 +1,336 @@
+Excellent. Now you’re no longer thinking “CRUD app.”
+ You’re thinking ministry operations platform.
+We’re upgrading this from ChurchCRM clone to a Modern Church Operations System (MCOS).
+Below is your enhanced senior-level master prompt including:
+Cell Ministry
+
+
+Soul Winning
+
+
+Follow-up workflows
+
+
+Bulk SMS
+
+
+Custom email campaigns
+
+
+WhatsApp messaging
+
+
+Communication automation
+
+
+Role-based ministry structure
+
+
+This is production-grade system design.
+
+🔥 MASTER SENIOR-LEVEL PROMPT (ADVANCED CHURCH MANAGEMENT SYSTEM)
+
+PROMPT START
+You are a senior full-stack architect and DevOps engineer.
+Design and generate a production-ready Modern Church Management & Ministry Operations System using scalable architecture and best practices.
+
+🧱 TECH STACK
+Frontend:
+Next.js 14+ (App Router)
+TypeScript
+Tailwind CSS
+ShadCN or Headless UI components
+Recharts (for analytics)
+Axios or Fetch API
+Fully responsive (mobile-first)
+
+
+Backend:
+Node.js
+Express.js
+MongoDB
+Mongoose ODM
+JWT Authentication
+Role-Based Access Control (RBAC)
+REST API architecture
+
+
+Deployment:
+Frontend → Vercel (Free Tier)
+Backend → Render/Railway (Free Tier)
+Database → MongoDB Atlas (Free Cluster)
+
+👥 ROLE SYSTEM
+Implement robust role-based access:
+Super Admin
+Admin
+Pastor
+Finance Officer
+Cell Leader
+Follow-Up Team
+Evangelism Team
+Each role must have permission middleware.
+
+📊 CORE MODULES
+
+1️⃣ Authentication & Security
+Register Admin
+Login / Logout
+JWT with refresh tokens
+Password hashing (bcrypt)
+Input validation (Zod/Joi)
+Protected routes
+Audit logs for admin actions
+
+
+
+2️⃣ Dashboard
+Total Members
+Active Cells
+Soul Winners This Month
+Visitors This Week
+Follow-ups Pending
+Total Donations
+SMS Sent This Month
+WhatsApp Messages Sent
+Email Campaign Stats
+Charts:
+Attendance trends
+Giving trends
+Growth metrics
+
+
+
+3️⃣ Member Management
+CRUD Members
+Schema:
+First Name
+Last Name
+Gender
+Phone
+Email
+Address
+Date of Birth
+Salvation Status
+Baptism Status
+Member Status (Visitor, Convert, Worker, Leader)
+Assigned Cell
+Assigned Follow-up Leader
+Profile Photo
+
+
+
+4️⃣ Cell Ministry Module
+Features:
+Create Cells
+Assign Cell Leader
+Assign Members to Cells
+
+
+Track Weekly Attendance per Cell
+
+
+Cell Growth Metrics
+Cell Multiplication Tracking
+Cell Reports
+
+
+Cell Schema:
+Cell Name
+Location
+Leader
+Assistant Leader
+Members
+Meeting Day
+Attendance Records
+
+5️⃣ Soul Winning & Evangelism Module
+Track Outreach Activities:
+Record Soul Won
+Evangelism Campaigns
+Outreach Locations
+Evangelist Assigned
+Decision Status:
+Gave Life
+Rededicated
+Not Yet
+
+
+Workflow:
+New Convert → Auto Assigned to Follow-Up Team
+Follow-up reminders
+Conversion analytics
+Schema:
+Convert Name
+Phone
+Address
+Date of Salvation
+Evangelist
+Follow-up Status
+Baptism Scheduled
+Joined Cell?
+
+6️⃣ Follow-Up System (Workflow Engine)
+Features:
+Assign follow-up leader
+Schedule follow-up calls
+Track follow-up attempts
+Follow-up stages:
+
+
+Contacted
+Visited
+Invited to Church
+Attended
+Joined Cell
+Became Member
+Automatic Reminders:
+Email reminders
+Dashboard alerts
+
+7️⃣ Finance Module
+Record Donations
+Categories:
+
+
+Tithe
+
+
+Offering
+
+
+Partnership
+
+
+Special Seed
+
+
+Member-linked donations
+Monthly reports
+Export-ready data
+Financial summary dashboard
+
+8️⃣ Communication System (Advanced Feature)
+Bulk SMS Integration
+SMS Provider integration placeholder (e.g., Africa’s Talking, Twilio)
+Send to:
+
+
+All Members
+
+
+Specific Cell
+
+
+Visitors Only
+SMS logs
+SMS credits tracking
+Email Campaign System
+Custom templates
+Personalized emails (e.g., Hi {{firstName}})
+Mass email sending
+Email open tracking
+Campaign statistics
+WhatsApp Messaging Integration
+WhatsApp Business API structure
+Send templated messages
+Group broadcast
+Follow-up reminders via WhatsApp
+
+
+Design system to allow future API key integration.
+
+9️⃣ Attendance System
+Create Service Event
+Mark Attendance
+Attendance Analytics
+Filter by:
+Service
+Cell
+Date
+
+
+
+🔐 Security & Best Practices
+Environment variables
+API rate limiting
+Request validation
+Central error handler
+Clean architecture separation:
+
+
+Controllers
+Services
+Repositories
+Middleware
+
+
+Logging middleware
+
+
+
+📁 Folder Structure
+Backend:
+/server
+  /controllers
+  /services
+  /models
+  /routes
+  /middleware
+  /utils
+  /config
+  server.ts
+
+Frontend:
+/app
+  /dashboard
+  /members
+  /cells
+  /evangelism
+  /followup
+  /finance
+  /attendance
+  /communications
+/components
+/hooks
+/lib
+/types
+
+
+🎨 UI/UX REQUIREMENTS
+Fully responsive (mobile-first)
+Collapsible sidebar
+Top navigation
+Dark mode
+Clean spacing
+Loading states
+Toast notifications
+Skeleton loaders
+Smooth transitions
+
+
+
+🚀 Deployment Instructions
+Include:
+Backend deployment steps (Render)
+Frontend deployment (Vercel)
+MongoDB Atlas setup
+Environment variable setup
+Production build commands
+
+
+
+📦 Output Requirements
+Generate:
+Full backend structure
+Full frontend structure
+MongoDB schemas
+Authentication flow
+Example API routes
+Sample dashboard page
+Communication integration structure
+Deployment guide
+Seed data script
+README file
+Code must be scalable, modular, and production-ready.
+
